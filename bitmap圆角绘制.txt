@@ -1,0 +1,24 @@
+博客  
+https://blog.csdn.net/lmj623565791/article/details/41967509  鸿洋
+
+1.BitmapShader是Shader的子类，可以通过Paint.setShader（Shader shader）进行设置
+BitmapShader 的 使用
+
+参数1：bitmap
+参数2，参数3：TileMode；
+TileMode的取值有三种：
+
+CLAMP 拉伸
+
+REPEAT 重复
+
+MIRROR 镜像
+mBitmapShader = new BitmapShader(bitmap, TileMode.CLAMP, TileMode.CLAMP);
+2 吧 bitmapshader 设置给 画笔
+    BitmapShader bitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        mBitmapPait.setAntiAlias(true);
+        mBitmapPait.setShader(bitmapShader);
+
+
+
+

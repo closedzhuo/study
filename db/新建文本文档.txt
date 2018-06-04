@@ -1,0 +1,25 @@
+1. 创建一个表
+		// 参数说明
+        // context：上下文对象
+        // name：数据库名称
+        // param：一个可选的游标工厂（通常是 Null）
+        // version：当前数据库的版本，值必须是整数并且是递增的状态
+        // 必须通过super调用父类的构造函数
+        public BaseSQLiteOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+            super(context, name, factory, version);
+        }
+   /**
+     * 复写onCreate（）
+     * 调用时刻：当数据库第1次创建时调用
+     * 作用：创建数据库 表 & 初始化数据
+     * SQLite数据库创建支持的数据类型： 整型数据、字符串类型、日期类型、二进制
+     */
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        // 创建个表 Commerce    id 为 自动增长 的
+        String sql = "create table Commerce(id integer primary key autoincrement,name varchar(24),content text) ";
+        sqLiteDatabase.execSQL(sql);
+    }
+
+   sql 的 最基本字段
+	NULL、INTEGER、REAL、TEXT、BLOB

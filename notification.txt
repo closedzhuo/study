@@ -1,0 +1,78 @@
+https://blog.csdn.net/qq_34163551/article/details/79851542  博客
+https://blog.csdn.net/bolang789/article/details/77340639
+https://www.jianshu.com/p/22e27a639787
+https://blog.csdn.net/tianhui1234567/article/details/79505844
+
+1. notifition 的 使用  兼容包
+	NotificationCompat.Builder自动设置的默认值:
+    priority: PRIORITY_DEFAULT
+    when: System.currentTimeMillis()
+    audio stream: STREAM_DEFAULT
+	
+	// 参考 设置 intent 的设置 
+	Intent resultIntent = new Intent(this, ResultActivity.class); 
+	PendingIntent pendingIntent = PendingIntent.
+	getActivity( this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT); 
+	
+	NotificationCompat.Builder builder = new NotificationCompat.Builder()
+		.setSmallIcon() //设置图标
+		.setContentTitle()// 设置标题
+		.setContentext()	// 设置内容
+		.setCustomContenView() //设置自定义view
+		.setContentIntent()  // 设置 intent
+		.setAutoCancel() // 是否可以点击取消
+		//获取 notification 的管理类
+		NotificationManager mNotifyMgr = 
+      (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+	  // 设置 notification  
+	  // 参数一 ： 通知 Id 区分哪个通知的
+	  mNotifyMgr.notify(notificationId,builder.build())
+	  
+	  // notificationManager  常用属性
+	  notificationManager.cancle() //清空指定Id 
+	  notificationManager.cancleAll() //清空所有通知
+	  
+	 // 设置 进度条 notification 进度条
+	 // 通过 notification.build 对象 设置
+		builder.setProgress();
+	// 通过 notificationManager 属性 notification 的变化
+	notificationManager.notify(notificationId,builder.build())
+	//下载完成时移除进度条  变化时 需要 notificationManager.notify(notificationId,builder.build()) 刷新
+	builder.contentText()
+	.setProgress(0,0,false)
+	4.通知常见属性和常量
+	通知的提醒方式 ：
+	1、声音提醒
+		默认声音
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		自定义声音
+		notification.sound = Uri.parse("file:///sdcard0/notification.ogg");
+	
+		默认振动
+		notification.defaults |= Notification.DEFAULT_VIBRATE;
+		自定义振动
+		long[] vibrate = {100, 200, 300, 400}; //震动效果
+		// 表示在100、200、300、400这些时间点交替启动和关闭震动 notification.vibrate = vibrate;
+	3、闪烁提醒
+		默认闪烁
+		notification.defaults |= Notification.DEFAULT_LIGHTS;
+		自定义闪烁
+		notification.ledARGB = 0xff00ff00; // LED灯的颜色，绿灯
+		notification.ledOnMS = 300; // LED灯显示的毫秒数，300毫秒
+		notification.ledOffMS = 1000; // LED灯关闭的毫秒数，1000毫秒
+		notification.flags |= Notification.FLAG_SHOW_LIGHTS; // 必须加上这个标志
+	常见的Flags
+		FLAG_AUTO_CANCEL
+		当通知被用户点击之后会自动被清除(cancel)
+		FLAG_INSISTENT
+		在用户响应之前会一直重复提醒音
+		FLAG_ONGOING_EVENT
+		表示正在运行的事件
+		FLAG_NO_CLEAR
+		通知栏点击“清除”按钮时，该通知将不会被清除
+		FLAG_FOREGROUND_SERVICE
+		表示当前服务是前台服务
+
+	
+	  
+	  

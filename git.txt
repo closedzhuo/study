@@ -1,0 +1,79 @@
+
+
+
+
+//常见命令
+	git clone // clone下拉某个项目
+
+	git init //初始化 git
+	git status // 查看文件状态
+	git add .  添加所有的文件
+	git add 文件名 添加单个文件	
+	git commit -m "message" //commit 
+	git remote add origin url  添加要push 的url
+	git remote -v //查看 url
+	git remote rm  // 删除
+	
+	git push orgin master // push的git上
+			
+
+
+
+
+git config --global user.email "2794458326@qq.com" //修改全局的 git
+git config  user.email "2794458326@qq.com"		//修改project的git
+git config --local --list		//查看配置
+
+	
+	$ ssh-add -D
+	rm -r ~/.ssh
+
+$ ssh-keygen -t -C "Your email"  重新生成ssh
+
+
+
+	$ ssh-add -D
+	Could not open a connection to your authentication agent. //出现这个错误需要先执行下面代码
+	$ ssh-agent bash
+	$ git remote add orgin git@gitee.com:duannao/taoshe.git  //添加远程仓库
+	$ git remote -v
+	 git remote rm origin  移除远程参考
+	 git push origin master
+
+	
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>
+
+创建+切换分支：git checkout -b <name>
+
+合并某分支到当前分支：git merge <name>
+
+删除分支：git branch -d <name>
+
+ Your local changes to the following files would be overwritten by 代码冲突错误
+ 
+ // 常见错误
+ 1.To github.com:closedzhuo/study.git
+  ! [rejected]        master -> master (fetch first)
+	error: failed to push some refs to 'git@github.com:closedzhuo/study.git'
+	hint: Updates were rejected because the remote contains work that you do
+	hint: not have locally. This is usually caused by another repository pushing
+	hint: to the same ref. You may want to first integrate the remote changes
+	hint: (e.g., 'git pull ...') before pushing again.
+	hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+	//第一次push 不上去可以使用下面代码强行push	
+	git push -u -f orgin master
+
+
+
+
+
+
+
+ 
+
+

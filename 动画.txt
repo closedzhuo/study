@@ -1,0 +1,39 @@
+1. 帧 动画
+
+	//  <!-- animation-list 帧动画 -->  
+    <!-- android:oneshot的值为 false代表播放多次，true代表只播放一次 -->  
+    <!-- duration代表每张图片的播放时间 ,定义一个持续时间为50毫秒的动画帧 -->
+	1.1 在 drawable 目录下 创建 animation-list xml
+	1.2
+	<item  
+        android:drawable="@drawable/img00"  
+        android:duration="50"/> 
+
+	2. 代码播放
+	1.1
+		ImageView iv_loading = (ImageView) view.findViewById(R.id.iv_loading);
+        iv_loading.setImageResource(R.drawable.anim_loadding);
+        animationDrawable = (AnimationDrawable) iv_loading.getDrawable();
+	2.2 
+	 AnimationDrawable drawable = (AnimationDrawable) getContext().getResources().getDrawable(R.drawable.anim_loadding);
+        iv_loading.setImageDrawable(drawable);
+	设置 style
+	<style name="CustomDialogProgress" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>  // 设置是否变暗
+        <item name="android:windowBackground">@android:color/transparent</item> //设置window 背景
+
+    </style>
+	一些其他属性
+		backgroundDimEnabled  
+		backgroundDimAmount  配合 backgroundDimEnabled  等于 true  设置界面的亮度和 dialog 的比例
+		windowContentOverlay 设置window 启动的背景颜色
+		windowIsFloating 让  dialog 是否是浮动的
+		windowIsTranslucent 透明属性
+		windowFrame 这个说明提示框是否有边框
+		    <item name="android:windowFrame">@null</item> --这个说明提示框是否有边框
+        <item name="android:windowIsFloating">true</item>                                                                       -------这个说明提示框是否是浮动的
+        <item name="android:windowIsTranslucent">false</item>  --这个说明提示框是滞是透明的                                                          
+        <item name="android:windowNoTitle">true</item> ----这个说明提示框是否有标题
+        <item name="android:windowBackground">@android:color/holo_green_light</item> --这个说明提示框的背景颜色是什么
+        <item name="android:backgroundDimEnabled">false</item>                                                         ------- 这个说明是否充许对话框的背景变暗。为true则充许变暗
+		
