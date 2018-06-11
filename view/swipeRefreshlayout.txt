@@ -1,0 +1,5 @@
+1.ViewConfiguration.get(Context).getScaledTouchSlop();//满足这个像素距离，可以认为用户在滚动中
+2.setWillNotDraw(false); 重写 onDraw()
+3.ViewCompat.setChildrenDrawingOrderEnabled(this, true);
+mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
+mNestedScrollingChildHelper = new NestedScrollingChildHelper(this

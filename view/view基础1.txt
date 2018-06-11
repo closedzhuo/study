@@ -1,0 +1,72 @@
+1.View 自身坐标系
+    getTop()：获取View自身顶边到其父布局顶边的距离
+    getLeft()：获取View自身左边到其父布局左边的距离
+    getRight()：获取View自身右边到其父布局左边的距离
+    getBottom()：获取View自身底边到其父布局顶边的距离
+2.MotionEvent提供的方法
+    getX()：获取点击事件距离控件左边的距离，即视图坐标
+    getY()：获取点击事件距离控件顶边的距离，即视图坐标
+    getRawX()：获取点击事件距离整个屏幕左边距离，即绝对坐标
+    getRawY()：获取点击事件距离整个屏幕顶边的的距离，即绝对坐标
+
+二.View 的滑动简介
+	View的滑动是Android实现自定义控件的基础，同时在开发中我们也难免会遇到View的滑动的处理。其实不管是那种滑动的方式基本思想都是类似的：当触摸事件传到View时，系统记下触摸点的坐标，手指移动时系统记下移动后的触摸的坐标并算出偏移量，并通过偏移量来修改View的坐标。
+实现View滑动有很多种方法，这篇文章主要讲解六种滑动的方法，分别是：layout()、offsetLeftAndRight()与offsetTopAndBottom()、LayoutParams、动画、scollTo与scollBy和Scroller；	
+  1. layout()
+  view进行绘制的时候会调用onLayout()方法来设置显示的位置，因此我们同样也可以通过修改View的left、top、right、bottom这四种属性来控制View的坐标。首先我们要自定义一个View，在onTouchEvent()方法中获取触摸点的坐标：
+
+  2. MotionEvent 使用
+   public boolean onTouchEvent(MotionEvent event) {
+        //获取到手指处的横坐标和纵坐标
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                lastX = x;
+                lastY = y;
+                break;
+			case MotionEvent.ACTION_MOVE:
+			//计算出移动的距离
+			 int offsetX = x-lastX;
+			  int offsetY y -lastY;
+			  1.方法一
+			  //通过layout重新排版
+			  layout(getLeft+offsetX,getTop()+offsetY,getRight()+offsetX , getBottom()+offsetY)
+			  2. 方法二  
+		//计算移动的距离 
+			int offsetX = x - lastX;
+			int offsetY = y - lastY;
+			//对left和right进行偏移
+			offsetLeftAndRight(offsetX);
+			//对top和bottom进行偏移
+			offsetTopAndBottom(offsetY);
+		  
+			break;
+		}
+	}
+	2. scollTo与scollBy
+	scollTo(x,y)表示移动到一个具体的坐标点，而scollBy(dx,dy)则表示移动的增量为dx、dy。其中scollBy最终也是要调用scollTo的。scollTo、scollBy移动的是View的内容，如果在ViewGroup中使用则是移动他所有的子View
+	((View)getParent()).scrollBy(-offsetX,-offsetY);
+	这里要实现CustomView随着我们手指移动的效果的话，我们就需要将偏移量设置为负值。
+	 3. Scroller  我们用scollTo/scollBy方法来进行滑动时，这个过程是瞬间完成的，所以用户体验不大好。这里我们可以使用Scroller来实现有过度效果的滑动，这个过程不是瞬间完成的，而是在一定的时间间隔完成的。Scroller本身是不能实现View的滑动的，它需要配合View的computeScroll()方法才能弹性滑动的效果
+		1. 初始化 Scroller  
+		Scroller scoller = new Scroller();
+		@Override
+	public void computeScroll() {
+		super.computeScroll();
+		if(mScroller.computeScrollOffset()){
+			((View) getParent()).scrollTo(mScroller.getCurrX(),mScroller.getCurrY());
+			//通过不断的重绘不断的调用computeScroll方法
+			invalidate();
+		}  
+	}
+	调用Scroller.startScroll()方法。我们在CustomView中写一个smoothScrollTo()方法，调用Scroller.startScroll()方法，在2000毫秒内沿X轴平移delta像素：
+		public void smoothScrollTo(int destX,int destY){
+			int scrollX=getScrollX();
+		  int delta=destX-scrollX;
+		//1000秒内滑向destX
+		mScroller.startScroll(scrollX,0,delta,0,2000);
+		invalidate();
+	}
+		

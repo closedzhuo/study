@@ -1,0 +1,68 @@
+1.自定义View  
+
+
+  onMeasure 的 绘制
+  对于这种情况需要我们在onMeasure()方法中指定一个默认的宽和高，在设置wrap_content属性时设置此默认的宽和高就可以了：
+  
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+      super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+      int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);
+      int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
+      int widthSpecSize=MeasureSpec.getSize(widthMeasureSpec);
+      int heightSpecSize=MeasureSpec.getSize(heightMeasureSpec);
+      if(widthSpecMode==MeasureSpec.AT_MOST&&heightSpecMode==MeasureSpec.AT_MOST){
+          setMeasuredDimension(400,400);
+      }else if(widthSpecMode==MeasureSpec.AT_MOST){
+          setMeasuredDimension(400,heightSpecSize);
+      }else if(heightSpecMode==MeasureSpec.AT_MOST){
+          setMeasuredDimension(widthSpecSize,400);
+      }
+  }
+  
+  
+  2. 自定义ViewGroup
+  import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+public class HorizontalView extends ViewGroup {
+    //...省略此前的构造代码
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+    
+        measureChildren(widthMeasureSpec, heightMeasureSpec);
+        //如果没有子元素，就设置宽高都为0（简化处理）
+        if (getChildCount() == 0) { 
+            setMeasuredDimension(0, 0);
+        }
+        //宽和高都是AT_MOST，则设置宽度所有子元素的宽度的和；高度设置为第一个元素的高度；
+        else if (widthMode == MeasureSpec.AT_MOST && heightMode == MeasureSpec.AT_MOST) {
+            View childOne = getChildAt(0);
+            int childWidth = childOne.getMeasuredWidth();
+            int childHeight = childOne.getMeasuredHeight();
+            setMeasuredDimension(childWidth * getChildCount(), childHeight);
+        }
+        //如果宽度是wrap_content，则宽度为所有子元素的宽度的和
+        else if (widthMode == MeasureSpec.AT_MOST) {
+            int childWidth = getChildAt(0).getMeasuredWidth();
+            setMeasuredDimension(childWidth * getChildCount(), heightSize);
+        }
+        //如果高度是wrap_content，则高度为第一个子元素的高度
+        else if (heightMode == MeasureSpec.AT_MOST) {
+            int childHeight = getChildAt(0).getMeasuredHeight();
+            setMeasuredDimension(widthSize, childHeight);
+        }
+      
+    }
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    }
+}
+  
+  

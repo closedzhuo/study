@@ -1,0 +1,213 @@
+1.Activity 的构成
+ // setContentView 方法
+/**
+     * Set the activity content from a layout resource.  The resource will be
+     * inflated, adding all top-level views to the activity.
+     *
+     * @param layoutResID Resource ID to be inflated.
+     *
+     * @see #setContentView(android.view.View)
+     * @see #setContentView(android.view.View, android.view.ViewGroup.LayoutParams)
+     */
+    public void setContentView(@LayoutRes int layoutResID) {
+        getWindow().setContentView(layoutResID);
+        initWindowDecorActionBar();
+    }
+	// getWindow()  是在哪赋值的呢 是通过mWindow赋值的
+	   public Window getWindow() {
+        return mWindow;
+    }
+	// mWindow 是在这里赋值的 PhoneWindow 继承window
+	 final void attach(Context context, ActivityThread aThread,
+            Instrumentation instr, IBinder token, int ident,
+            Application application, Intent intent, ActivityInfo info,
+            CharSequence title, Activity parent, String id,
+            NonConfigurationInstances lastNonConfigurationInstances,
+            Configuration config, String referrer, IVoiceInteractor voiceInteractor,
+            Window window) {
+        attachBaseContext(context);
+
+        mFragments.attachHost(null /*parent*/);
+
+        mWindow = new PhoneWindow(this, window); // 这是window 赋值的地方
+        mWindow.setWindowControllerCallback(this);
+        mWindow.setCallback(this);
+        mWindow.setOnWindowDismissedCallback(this);
+        mWindow.getLayoutInflater().setPrivateFactory(this);
+        if (info.softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED) {
+            mWindow.setSoftInputMode(info.softInputMode);
+        }
+        if (info.uiOptions != 0) {
+            mWindow.setUiOptions(info.uiOptions);
+        }
+        mUiThread = Thread.currentThread();
+
+        mMainThread = aThread;
+        mInstrumentation = instr;
+        mToken = token;
+        mIdent = ident;
+        mApplication = application;
+        mIntent = intent;
+        mReferrer = referrer;
+        mComponent = intent.getComponent();
+        mActivityInfo = info;
+        mTitle = title;
+        mParent = parent;
+        mEmbeddedID = id;
+        mLastNonConfigurationInstances = lastNonConfigurationInstances;
+        if (voiceInteractor != null) {
+            if (lastNonConfigurationInstances != null) {
+                mVoiceInteractor = lastNonConfigurationInstances.voiceInteractor;
+            } else {
+                mVoiceInteractor = new VoiceInteractor(voiceInteractor, this, this,
+                        Looper.myLooper());
+            }
+        }
+
+        mWindow.setWindowManager(
+                (WindowManager)context.getSystemService(Context.WINDOW_SERVICE),
+                mToken, mComponent.flattenToString(),
+                (info.flags & ActivityInfo.FLAG_HARDWARE_ACCELERATED) != 0);
+        if (mParent != null) {
+            mWindow.setContainer(mParent.getWindow());
+        }
+        mWindowManager = mWindow.getWindowManager();
+        mCurrentConfig = config;
+    }
+	
+	// phoneWindow 的setContentView 方法
+	@Override
+   public void setContentView(View view, ViewGroup.LayoutParams params) {
+       // Note: FEATURE_CONTENT_TRANSITIONS may be set in the process of installing the window
+       // decor, when theme attributes and the like are crystalized. Do not check the feature
+       // before this happens.
+       if (mContentParent == null) {
+           installDecor();  这个方法做了 什么
+       } else if (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) {
+           mContentParent.removeAllViews();
+       }
+
+       if (hasFeature(FEATURE_CONTENT_TRANSITIONS)) {
+           view.setLayoutParams(params);
+           final Scene newScene = new Scene(mContentParent, view);
+           transitionTo(newScene);
+       } else {
+           mContentParent.addView(view, params);
+       }
+       final Callback cb = getCallback();
+       if (cb != null && !isDestroyed()) {
+           cb.onContentChanged();
+       }
+   }
+   // installDecor() 方法 // mDecor 怎么赋值的
+   if (mDecor == null) {    
+           mDecor = generateDecor(); 
+           mDecor.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+           mDecor.setIsRootNamespace(true);
+           if (!mInvalidatePanelMenuPosted && mInvalidatePanelMenuFeatures != 0) {
+               mDecor.postOnAnimation(mInvalidatePanelMenuRunnable);
+           }
+       }
+       if (mContentParent == null) {
+           mContentParent = generateLayout(mDecor);   //mContentParent = 赋值
+       ｝
+       ...省略
+ ｝ 
+ ...省略          
+｝
+	// generateDecor();  
+	protected DecorView generateDecor() {
+     return new DecorView(getContext(), -1);  //这个 DecorView 就是 Activity 的根布局 是 phoneWindow 的内部类 继承fragment
+	 
+	 
+ }
+	// mContentParent 的赋值
+  protected ViewGroup generateLayout(DecorView decor) {
+...省略
+        //根据不同的情况加载不同的布局给layoutResource
+        int layoutResource;
+        int features = getLocalFeatures();
+        // System.out.println("Features: 0x" + Integer.toHexString(features));
+        if ((features & ((1 << FEATURE_LEFT_ICON) | (1 << FEATURE_RIGHT_ICON))) != 0) {
+            if (mIsFloating) {
+                TypedValue res = new TypedValue();
+                getContext().getTheme().resolveAttribute(
+                        com.android.internal.R.attr.dialogTitleIconsDecorLayout, res, true);
+                layoutResource = res.resourceId;
+            } else {
+                layoutResource = com.android.internal.R.layout.screen_title_icons;
+            }
+            // XXX Remove this once action bar supports these features.
+            removeFeature(FEATURE_ACTION_BAR);
+            // System.out.println("Title Icons!");
+        } else if ((features & ((1 << FEATURE_PROGRESS) | (1 << FEATURE_INDETERMINATE_PROGRESS))) != 0
+                && (features & (1 << FEATURE_ACTION_BAR)) == 0) {
+            // Special case for a window with only a progress bar (and title).
+            // XXX Need to have a no-title version of embedded windows.
+            layoutResource = com.android.internal.R.layout.screen_progress;
+            // System.out.println("Progress!");
+        } else if ((features & (1 << FEATURE_CUSTOM_TITLE)) != 0) {
+            // Special case for a window with a custom title.
+            // If the window is floating, we need a dialog layout
+            if (mIsFloating) {
+                TypedValue res = new TypedValue();
+                getContext().getTheme().resolveAttribute(  //加载 layoutResource 的布局
+                        com.android.internal.R.attr.dialogCustomTitleDecorLayout, res, true);
+                layoutResource = res.resourceId;
+            } else {
+                layoutResource = com.android.internal.R.layout.screen_custom_title;
+            }
+            // XXX Remove this once action bar supports these features.
+            removeFeature(FEATURE_ACTION_BAR);
+...省略
+
+ mDecor.startChanging();
+        //将layoutResource加载到View中并添加到DecorView中
+        View in = mLayoutInflater.inflate(layoutResource, null);
+        decor.addView(in, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+...省略
+
+}
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+    <!-- Popout bar for action modes -->
+    <ViewStub android:id="@+id/action_mode_bar_stub"
+              android:inflatedId="@+id/action_mode_bar"
+              android:layout="@layout/action_mode_bar"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:theme="?attr/actionBarTheme" />
+    <FrameLayout
+        android:layout_width="match_parent" 
+        android:layout_height="?android:attr/windowTitleSize"
+        style="?android:attr/windowTitleBackgroundStyle">
+        <TextView android:id="@android:id/title" 
+            style="?android:attr/windowTitleStyle"
+            android:background="@null"
+            android:fadingEdge="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <FrameLayout android:id="@android:id/content"
+        android:layout_width="match_parent" 
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:foregroundGravity="fill_horizontal|top"
+        android:foreground="?android:attr/windowContentOverlay" />
+</LinearLayout>
+
+//ViewStub 是显示 ActionBar 的 俩个 fragmentLayout 一个是显示标题 一个是显示content
+
+
+
+
+
+
+
+
+
+	
+   
