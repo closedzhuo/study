@@ -1,0 +1,45 @@
+http://www.gcssloop.com/customview/Canvas_BasicGraphics
+1.绘画线  
+/**
+	参数 1 ：起始x点
+	参数 2 ：起始y点
+	参数 3 ：结束x点
+	参数 4 ：结束y点
+/ 
+canvas.drawLine(300,300,500,600,mPaint);    // 在坐标(300,300)(500,600)之间绘制一条直线
+canvas.drawLines(new float[]{               // 绘制一组线 每四数字(两个点的坐标)确定一条线
+    100,200,200,200,
+    100,300,200,300
+},mPaint);
+
+
+2.绘画 矩形
+// 第一种
+canvas.drawRect(100,100,800,400,mPaint);
+
+// 第二种
+Rect rect = new Rect(100,100,800,400);
+canvas.drawRect(rect,mPaint);
+
+// 第三种
+RectF rectF = new RectF(100,100,800,400);
+canvas.drawRect(rectF,mPaint);
+
+3. 绘制圆   参数一 x 的 中心坐标
+			参数 二 y 的 中心坐标
+			参数 三 圆的半径
+	 canvas.drawCircle(400,400,400,paint);
+4. 绘制圆弧
+	// 第一种
+	1.startAngle  // 开始角度
+	2.sweepAngle  // 扫过角度
+	3.useCenter   // 是否使用中心
+public void drawArc(@NonNull RectF oval, float startAngle, float sweepAngle, boolean useCenter, @NonNull Paint paint){}
+    
+	// 第二种
+public void drawArc(float left, float top, float right, float bottom, float startAngle,
+            float sweepAngle, boolean useCenter, @NonNull Paint paint) {}	 
+			
+			
+			
+	 

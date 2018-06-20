@@ -1,0 +1,43 @@
+1. 冒泡排序
+	public static void BubbleSort(int [] arr){ 
+	int temp;
+	//临时变量 
+	for(int i=0; i<arr.length-1; i++){ 
+	//表示趟数，一共arr.length-1次。 
+		for(int j=arr.length-1; j>i; j--){ 
+			if(arr[j] < arr[j-1]){
+				temp = arr[j]; 
+				arr[j] = arr[j-1]; 
+				arr[j-1] = temp; } 
+			} 
+		} 
+	}
+2.选择排序
+public static void select_sort(int array[],int lenth){ 
+for(int i=0;i<lenth-1;i++){ int minIndex = i; 
+	for(int j=i+1;j<lenth;j++){ 
+		if(array[j]<array[minIndex]){ 
+			minIndex = j; 
+		} 
+	} 
+		if(minIndex != i){ 
+		int temp = array[i]; array[i] = array[minIndex]; array[minIndex] = temp; 
+		} 
+	} 
+}
+3.插入排序(Insertion Sort)
+
+public static void insert_sort(int array[],int lenth){ 
+	int temp; for(int i=0;i<lenth-1;i++){ 
+	for(int j=i+1;j>0;j--){ if(array[j] < array[j-1]){ 
+		temp = array[j-1]; array[j-1] = array[j]; array[j] = temp; 
+		}else{ 
+		//不需要交换 break; } 
+		} 
+	} 
+}
+
+四. 希尔排序(Shell Sort)
+ public static void shell_sort(int array[],int lenth){ int temp = 0; int incre = lenth; while(true){ incre = incre/2; for(int k = 0;k<incre;k++){ //根据增量分为若干子序列 for(int i=k+incre;i<lenth;i+=incre){ for(int j=i;j>k;j-=incre){ if(array[j]<array[j-incre]){ temp = array[j-incre]; array[j-incre] = array[j]; array[j] = temp; }else{ break; } } } } if(incre == 1){ break; } } }
+
+

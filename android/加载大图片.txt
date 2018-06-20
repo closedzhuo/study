@@ -1,0 +1,1 @@
+1. BitmapRegionDecoder 这个类

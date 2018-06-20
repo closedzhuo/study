@@ -1,0 +1,9 @@
+ 1. service 启动方式
+	 1. startService       stopService
+		生命周期
+		onCreate  onStartCommand   onStart onDetory
+		
+	2. bindService   unBindService
+
+		onCreate onBind	onUnBind   onDetory
+	 

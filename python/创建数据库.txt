@@ -1,0 +1,13 @@
+ 1. 导入 SQLAlchemy
+ from flask_sqlalchemy import SQLAlchemy    # 引入数据库
+ 2. 创建 db 对象 并 配置 参数        // 数据 库 类型 名字 密码  地址 数据库名
+	app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1/flask_sql'   # 引入数据库地址需要配置
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False   #动态跟踪
+	db = SQLAlchemy(app)     # 配置数据库 
+ 3. 在终端创建数据库   // 编码格式
+ create database 数据库名 character=utf8 
+
+  #关系引用
+    # books 是给 自己用的   author 是给books 用的
+    books = db.relationship("Book",backref = "author")  
+	author_id = db.Column(db.Integer,db.ForeignKey('authors.id'))  # 外键

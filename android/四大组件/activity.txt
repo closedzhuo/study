@@ -1,0 +1,16 @@
+1. Activity 的 启动
+	Launcher.startActivitySafely
+
+        在Android系统中，应用程序是由Launcher启动起来的，
+		其实，Launcher本身也是一个应用程序，其它的应用程序安装后，
+		就会Launcher的界面上出现一个相应的图标，点击这个图标时，Launcher就会对应的应用程序启动起来。
+		startActivitySafely 
+
+ 2. Activity 的 启动模式
+		1.standard
+		2.singleTop
+		3.singleTask
+		4singleInstance
+		
+		
+		

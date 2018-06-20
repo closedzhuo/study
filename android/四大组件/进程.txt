@@ -1,0 +1,18 @@
+前台进程（Foreground process）
+可见进程(Visible process)
+服务进程(Service process)
+后台进程(Background process)
+空进程(Empty process)
+
+1. 前台进程（Foreground
+
+    拥有用户正在交互的 Activity（已调用 onResume()）
+
+    拥有某个 Service，后者绑定到用户正在交互的 Activity
+
+    拥有正在“前台”运行的 Service（服务已调用 startForeground()）
+
+    拥有正执行一个生命周期回调的 Service（onCreate()、onStart() 或 onDestroy()）
+
+    拥有正执行其 onReceive() 方法的 BroadcastReceiver
+	

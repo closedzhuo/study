@@ -1,0 +1,29 @@
+1. 注册 广播
+	1. 动态注册
+	registerReceiver()
+	//new出上边定义好的BroadcastReceiver MyBroadCastReceiver yBroadCastReceiver = new MyBroadCastReceiver();
+	//实例化过滤器并设置要过滤的广播 IntentFilter intentFilter = 
+	new IntentFilter("android.provider.Telephony.SMS_RECEIVED"); 
+	//注册广播 myContext.registerReceiver(smsBroadCastReceiver,intentFilter, "android.permission.RECEIVE_SMS", null);
+
+	2.静态注册广播
+	<receiver android:name=".MyBroadCastReceiver">
+	<!-- android:priority属性是设置此接收者的优先级（从-1000到1000） --> 
+	<intent-filter android:priority="20"> <actionandroid:name="android.provider.Telephony.SMS_RECEIVED"/> 
+	</intent-filter> </receiver>
+
+    第一种不是常驻型广播，也就是说广播跟随程序的生命周期。
+    第二种是常驻型，也就是说当应用程序关闭后，如果有信息广播来，程序也会被系统调用自动运行。
+
+	1. 有序广播和无序广播
+	当我们需要发送一个自定义的广播来通知程序中其他组件一些状态时，就可以使用发送一条广播的方式。
+
+	有两种方式分别发送两种不同的广播：
+	通过mContext.sendBroadcast(Intent)或mContext.sendBroadcast(Intent, String)发送的是无序广播(后者加了权限)；
+	通过mContext.sendOrderedBroadcast(Intent, String, BroadCastReceiver, Handler, int, String, Bundle)
+	发送的是有序广播。
+	
+	3. 本地广播
+
+
+	
