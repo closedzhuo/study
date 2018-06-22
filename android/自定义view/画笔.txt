@@ -1,1 +1,5 @@
 1. Paint
+	// style
+	STROKE                //描边
+	FILL                  //填充
+	FILL_AND_STROKE       //描边加填充

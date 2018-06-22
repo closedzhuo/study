@@ -1,0 +1,28 @@
+1. 数据库 都是 按照 E-R的设计
+	E 代表 entry ，实体
+	R 代表 relationship ，关系
+2.数据库常用字段 
+	1.数字
+	decimal
+    2.字符串  
+	char    不可变的
+	vachar  可变的
+	bit  使用与 性别
+	3.日期
+	datetime
+	
+3.约束
+	1. 主键 primary key
+	2. 非空 not null
+	3. 唯一 unique
+	4. 默认 default
+	5. 外键 foreign key
+
+4.备份数据库
+		sudo -s
+	1.备份数据库
+	mysqldump -uroot -p 数据库名字 > ~/Desktop/bak.sql
+	
+	2.恢复数据库
+	先创建数据库
+	mysql -uroot -p py31 < 数据库

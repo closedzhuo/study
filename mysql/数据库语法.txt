@@ -1,0 +1,63 @@
+1. 创建数据库
+	create dabase 数据库 charset=utf-8
+2.删除数据库
+	drop database 数据库
+3.查看数据库
+	show databases 数据库
+4. 切换数据库
+	use 数据库
+	
+5. 查看当前数据库 
+select database();	
+
+二 ： 表的命令
+	1.查看表
+	show tables 
+	
+	2.创建表  auto_increment 自动增长
+	create table 表名( id int auto_increment primary key not null,
+						name varchar(10),
+						gender bit default 1,
+						birthday datetime
+	)
+	2. 查看表的结构
+	desc 表名
+	
+	3.修改表
+	alter table 表名 add|change|drop 列名 类型;
+	4. 删除表
+	drop 表名
+	5.查看表的创建语法
+	show create table 表名 
+	6.更改表的名字 
+	rename table 原表名 to 新表名
+三 ： 查询语句
+		1.查询语句
+		select * from 表名;  
+		2. 添加 语句
+		insert into 表名 values(0,"",1，"",)  //这个需要顺序 
+		如 ：
+		insert into students values (0,"张三",1,'1990-2-2')
+		insert into 表名(字段...)values(....)
+		一次性插入多条数据
+		insert into 表名 values(0,"",1，"",)，()  //这个需要顺序
+		insert into 表名(字段...)values(....),()
+		如： 同时插入多条数据
+		insert into students(name,birthday) values('孙悟空','1999-2-2'),('猪八戒','1992-4-5');
+		
+		3.修改 语句
+		update 表名 set 字段名=""  where 字段 = 条件;
+		如 ：
+		update students set gendent = 1 where id = 0;
+		4.删除语句  物理删除
+		delete from 表名 where id = 5;
+		  逻辑删除
+		 update 表名 isDelete =1 where id = 5;
+		 如 ：
+		 delete from students where id = 4;
+		 
+		
+		
+		
+		
+	
