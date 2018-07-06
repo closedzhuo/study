@@ -1,0 +1,29 @@
+1.安装虚拟环境
+	pip install virtualenv
+	pip install virtualenvwrapper-win
+
+2. 创建虚拟环境
+	1.创建虚拟环境
+		mkvirtualenv py3
+		
+	virtualenv 项目名
+	2.使用虚拟环境
+		cd 到Scripts
+		activate 使用
+	3. workon 查看虚拟环境 和 切换虚拟环境
+	
+		
+	4.退出
+		deactivate
+	5.查看虚拟环境
+		workon
+	6.删除虚拟环境
+		rmvirtualenv
+	7.查看包
+		pip list
+		
+二 django 的命令
+			django-admin startproject 项目名 创建项目
+			查看虚拟环境在哪个目录
+			which python   貌似不管用
+			

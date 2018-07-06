@@ -1,0 +1,37 @@
+1.MongoDB 是一个基于分布式 文件存储的NoSQL数据库
+2.特点
+	模式自由 可以吧不同的结构文档存储在同一个数据库
+	面向集合
+
+二  
+	
+	
+	
+	
+三 创建集合
+	1.创建
+	db.createCollection("a");
+	设置 条数的创建
+	db.createCOllection('',{capped:true,size:10})
+	3.删除
+	db.a.drop()
+	2.添加
+	db.a.insert({})
+	3.查找
+	db.a.find()
+	4.修改数据 参数三 是否多行修改
+	db.a.update(query,update,multi)
+	修改多条数据  不用$set 是修改整个文档，
+	db.a.update({},{$set:{}},)
+	
+四  数据库类型
+		Object ID ：文档ID;   每个文档的唯一属性 为——id
+		String 
+		Boolean
+		Integer 
+		Double
+		Arrays
+		Object
+		Null
+		Timesamp 时间戳
+		Date 

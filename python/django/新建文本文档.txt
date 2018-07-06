@@ -1,0 +1,4 @@
+1. django 的 查询
+	values() 转成字典
+	filter(键=值,键=值)
+	

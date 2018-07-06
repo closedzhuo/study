@@ -1,0 +1,7 @@
+1. lint 的使用 
+	Analyze - inspect Code
+	
+	
+	2. Android Lint ：Performance  性能
+	
+	

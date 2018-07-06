@@ -1,0 +1,51 @@
+一 django 的命令
+			django-admin startproject 项目名 创建项目
+			查看虚拟环境在哪个目录
+			which python   貌似不管用
+			
+
+1.生成迁移
+	python manage.py makemigrations
+2.执行迁移
+		python manage.py migrate
+		
+3. 进入
+	python manage.py shell
+	
+4.添加管理员
+	python manage.py createsuperuser
+5.运行
+	python manage.py runserver
+6.创建应用
+ python manage.py startapp	
+	
+二 创建django
+	django-admin startproject 项目名 创建项目
+	python manage.py startapp  启动 app 加创建
+	python manage.py makemigrations  生成一个迁移文件
+	python manage.py migrate 注册迁移文件
+	python manage.py she1l   进入shell 操作
+	python manage.py runserver  启动服务
+	python manage.py createsuperuser 创建超级管理员
+	
+	admin 的 使用  adimin类model
+	admin.site.register(模型类,adimin类)
+	
+三 pillow 绘制图形
+	from PIL import image ,ImageDraw ,ImageFont
+四 富文本编辑器	
+	tinymce 
+五 搜索引擎
+	haystack  和 搜索引擎
+	whoosh 		搜索引擎
+	jieba		库
+	1.安装 
+		pip install django-haystack
+		pip install whoosh
+		pip install jieba
+六 celery 做耗时操作
+	
+	
+	
+	
+	
